@@ -6,3 +6,29 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+
+/* 文本区域样式 */
+.commit-text-area {
+    width: 100%;
+    min-height: 120px; /* 固定最小高度而不是百分比 */
+    resize: vertical;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    margin-top: 20px; /* 添加上边距 */
+}
+
+.git-output-div {
+    font-family: monospace;
+    white-space: pre-wrap;
+    background-color: #383838D0;
+    border-radius: 4px;
+    /* border: 1px solid #ddd; */
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+    margin: 10px 0;
+}

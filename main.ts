@@ -1,25 +1,71 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { join } from 'path';
+import { InsertLinkModal } from 'modal';
+import { GitModal } from 'gitmodal';
+
 
 // Remember to rename these classes and interfaces!
 
 interface MyPluginSettings {
 	mySetting: string;
+	myBoolean: boolean;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
+	mySetting: 'default',
+	myBoolean: true
 }
 
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
+	private autoGit() {
+		const onSubmit = (commitMsg: string) => {
+			console.log('auto-git submit process');
+			gitModal.handleCommitAndPush();
+		}
+		const gitModal = new GitModal(this.app, onSubmit);
+		gitModal.open();
+	}
+
 	async onload() {
+		console.log('插件加载开始。。。。。。。');
 		await this.loadSettings();
+		console.log('加载后的设置：', this.settings);
+		console.info('插件初始化完成');
+
+		this.addCommand({
+			id: 'test-for-feng',
+			name: 'test-for-feng-name',
+			editorCallback: (editor: Editor) => {
+				const selectText = editor.getSelection();
+				const onSubmit = (text: string, url: string) => {
+					editor.replaceSelection(`[${text}](${url})`);
+				};
+
+				new InsertLinkModal(this.app, selectText, onSubmit).open();
+			}
+		})
+
+		this.addCommand({
+			id: 'auto-git',
+			name: 'auto-git',
+			hotkeys: [{modifiers: ['Mod', 'Alt'], key: 'g'}],
+			callback: () => {
+				this.autoGit;
+			}
+		})
+
+		// 获取插件目录并打印
+		const pluginName = this.manifest.name;
+		const pluginRoot = this.app.vault.getRoot();
+		console.log("插件名字：", join(pluginRoot.name, '/', pluginName));
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (_evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('dice', 'auto-git', (_evt: MouseEvent) => {
 			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
+			// new Notice('This is a notice!');
+			this.autoGit();
 		});
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
