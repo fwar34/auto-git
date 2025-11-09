@@ -22,8 +22,8 @@ If your plugin does not need CSS, delete this file.
 }
 
 .git-output-div {
-    font-family: monospace;
-    white-space: pre-wrap;
+    /* font-family: monospace; */
+    /* white-space: pre-wrap; */
     background-color: #383838D0;
     border-radius: 4px;
     /* border: 1px solid #ddd; */

@@ -52,7 +52,7 @@ export default class MyPlugin extends Plugin {
 			name: 'auto-git',
 			hotkeys: [{modifiers: ['Mod', 'Alt'], key: 'g'}],
 			callback: () => {
-				this.autoGit;
+				this.autoGit();
 			}
 		})
 
