@@ -67,12 +67,14 @@ export class GitModal extends Modal {
                 });
 
             child.stdout?.on('data', (data) => {
-                const output = Buffer.isBuffer(data) ? data.toString('utf-8') : data
+                // const output = Buffer.isBuffer(data) ? data.toString('utf-8') : data
+                const output = data.toString('utf-8')
                 outputModal.addOutputLine(output);
             });
 
             child.stderr?.on('data', (data) => {
-                const output = Buffer.isBuffer(data) ? data.toString('utf-8') : data
+                // const output = Buffer.isBuffer(data) ? data.toString('utf-8') : data
+                const output = data.toString('utf-8')
                 outputModal.addOutputLine(output);
             })
         })
